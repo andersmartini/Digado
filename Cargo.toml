@@ -1,0 +1,8 @@
+[package]
+name = "digado"
+version = "0.1.0"
+authors = ["anders martini <andersmartini2@gmail.com>"]
+
+[dependencies]
+rocket = "0.3.8"
+rocket_codegen = "0.3.8"
