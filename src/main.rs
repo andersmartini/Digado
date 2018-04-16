@@ -16,11 +16,17 @@ fn index() -> &'static str {
 struct Topic{
     url: String
 }
+#[derive(FromForm)]
+struct Subject{
+    url: String,
+    sam: String
+}
 
 #[get("/api/chat/messages?<topic>")]
 fn get_topic(topic: Topic) -> String {
     format!("hello {} !", topic.url)
 }
+
 
 fn main() {
     rocket::ignite()
