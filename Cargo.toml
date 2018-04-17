@@ -6,3 +6,4 @@ authors = ["anders martini <andersmartini2@gmail.com>"]
 [dependencies]
 rocket = "0.3.8"
 rocket_codegen = "0.3.8"
+diesel = { version = "1.0.0", features = ["postgres"] }
