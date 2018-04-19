@@ -1,7 +1,7 @@
 [package]
 name = "digado"
 version = "0.1.0"
-authors = ["anders martini <andersmartini2@gmail.com>"]
+authors = ["anders martini <andersmartini2@gmail.com>", "sam wilson <sam.wilson@mirado.com>"]
 
 [dependencies]
 rocket = "0.3.8"
