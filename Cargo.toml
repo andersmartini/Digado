@@ -6,4 +6,7 @@ authors = ["anders martini <andersmartini2@gmail.com>", "sam wilson <sam.wilson@
 [dependencies]
 rocket = "0.3.8"
 rocket_codegen = "0.3.8"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
 #diesel = { version = "1.0.0", features = ["postgres"] }
