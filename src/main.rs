@@ -1,18 +1,23 @@
 #![feature(plugin)]
 #![feature(custom_derive)]
 #![plugin(rocket_codegen)]
+#[macro_use]
+extern crate serde_derive;
+#[macro_use]
+extern crate diesel;
+
+extern crate dotenv;
+extern crate rocket;
+extern crate rocket_contrib;
+
+mod libs;
 
 use rocket::request::FromForm;
 use rocket::http::RawStr;
+use rocket_contrib::json::Json;
 
-extern crate rocket;
-
-extern crate serde_derive;
-
-extern crate serde;
-extern crate serde_json;
-
-const CHAT: &'static [&'static str] = &["hello", "no u", "stop"];
+use libs::*;
+use libs::models::Message;
 
 #[get("/world")]
 fn index() -> &'static str {
@@ -39,21 +44,20 @@ fn get_topic(topic: Topic) -> String {
     format!("hello {} !", topic.url)
 }
 
-#[get("/chat/messages")]
-fn write_chat() -> String {
-    return serde_json::to_string(CHAT).unwrap();
+#[get("/chat")]
+fn get_chat() -> Json<Vec<Message>> {
+    return Json(get_messages());
 }
 
-#[post("/chat/message")]
-fn send_message() {
-
-}
+/*#[post("/chat", format = "application/json", data = "<message>")]
+fn new_message(input: Json<Message>) {
+}*/
 
 fn main() {
     rocket::ignite()
         .mount("/hello", routes![index])
         .mount("/hello", routes![hello])
         .mount("/api", routes![get_topic])
-        .mount("/api", routes![write_chat])
+        .mount("/api", routes![get_chat])
         .launch();
 }
