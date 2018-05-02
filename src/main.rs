@@ -3,11 +3,9 @@
 #![plugin(rocket_codegen)]
 #[macro_use] extern crate serde_derive;
 #[macro_use] extern crate diesel;
-extern crate log;
 extern crate dotenv;
 extern crate rocket;
 extern crate rocket_contrib;
-extern crate env_logger;
 
 mod libs;
 

@@ -1,7 +1,5 @@
 extern crate diesel;
 extern crate dotenv;
-extern crate log;
-extern crate env_logger;
 
 pub mod models;
 pub mod schema;
