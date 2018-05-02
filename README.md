@@ -4,7 +4,7 @@ a plugin-based chat client
 # Setup instructions!
 1. If you don't have postgres (or are too lazy to remember how to start it up):
 [postgres]
-2. `cargo install diesel_cli --no-default-features --features`
+2. `cargo install diesel_cli --no-default-features --features postgres`
 3. `diesel setup`
 4. `diesel migration run`
 5. `cargo build`
