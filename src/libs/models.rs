@@ -1,12 +1,17 @@
 use super::schema::messages;
-use rocket_contrib::Json;
 
-#[derive(Queryable, Serialize, Deserialize)]
+#[derive(Queryable, Serialize, Deserialize, Debug)]
 pub struct Message {
     pub id: i32,
     pub user_name: String,
     pub message: String,
     pub published: bool,
+}
+
+#[derive(Queryable, Serialize, Deserialize)]
+pub struct ReceivedMessage {
+    pub user_name: String,
+    pub message: String,
 }
 
 #[derive(Insertable)]

@@ -1,5 +1,7 @@
 extern crate diesel;
 extern crate dotenv;
+extern crate log;
+extern crate env_logger;
 
 pub mod models;
 pub mod schema;
@@ -18,14 +20,13 @@ pub fn establish_connection() -> PgConnection {
         .expect(&format!("Error connecting to {}", database_url))
 }
 
-use self::models::{Message, NewMessage};
+use self::models::*;
 
-pub fn create_message<'a>(conn: &PgConnection, user_name: &'a str, message: &'a str) -> Message {
+pub fn create_message<'a>(conn: &PgConnection, received_message: &'a ReceivedMessage) -> Message {
     use schema::messages;
-
     let new_message = NewMessage {
-        user_name: user_name,
-        message: message,
+        user_name: &received_message.user_name,
+        message: &received_message.message,
     };
 
     diesel::insert_into(messages::table)

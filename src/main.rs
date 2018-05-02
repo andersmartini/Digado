@@ -1,23 +1,20 @@
 #![feature(plugin)]
 #![feature(custom_derive)]
 #![plugin(rocket_codegen)]
-#[macro_use]
-extern crate serde_derive;
-#[macro_use]
-extern crate diesel;
-
+#[macro_use] extern crate serde_derive;
+#[macro_use] extern crate diesel;
+extern crate log;
 extern crate dotenv;
 extern crate rocket;
 extern crate rocket_contrib;
+extern crate env_logger;
 
 mod libs;
 
-use rocket::request::FromForm;
-use rocket::http::RawStr;
 use rocket_contrib::json::Json;
-
+use rocket::http::RawStr;
+use libs::models::*;
 use libs::*;
-use libs::models::Message;
 
 #[get("/world")]
 fn index() -> &'static str {
@@ -33,11 +30,6 @@ fn hello(name: &RawStr) -> String {
 struct Topic{
     url: String
 }
-#[derive(FromForm)]
-struct Subject{
-    url: String,
-    sam: String
-}
 
 #[get("/chat/messages?<topic>")]
 fn get_topic(topic: Topic) -> String {
@@ -49,9 +41,13 @@ fn get_chat() -> Json<Vec<Message>> {
     return Json(get_messages());
 }
 
-/*#[post("/chat", format = "application/json", data = "<message>")]
-fn new_message(input: Json<Message>) {
-}*/
+#[post("/chat", format = "application/json", data = "<message>")]
+fn new_message(message: Json<ReceivedMessage>) {
+    let connection = establish_connection();
+
+    println!("{:?}", create_message(
+            &connection, &message.into_inner()));
+}
 
 fn main() {
     rocket::ignite()
@@ -59,5 +55,6 @@ fn main() {
         .mount("/hello", routes![hello])
         .mount("/api", routes![get_topic])
         .mount("/api", routes![get_chat])
+        .mount("/api", routes![new_message])
         .launch();
 }
