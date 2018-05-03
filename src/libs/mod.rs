@@ -23,6 +23,7 @@ use self::models::*;
 pub fn create_message<'a>(conn: &PgConnection, received_message: &'a ReceivedMessage) -> Message {
     use schema::messages;
     let new_message = NewMessage {
+        website: &received_message.website,
         user_name: &received_message.user_name,
         message: &received_message.message,
     };
@@ -42,4 +43,18 @@ pub fn get_messages () -> Vec<Message> {
         .load::<Message>(&connection)
         .expect("Error loading posts");
     return results;
+}
+
+pub fn get_messages_website (user_website : String) -> Vec<Message> {
+    use self::schema::messages::dsl::*;
+
+    let connection = establish_connection();
+    let results = messages.filter(published.eq(true))
+        .filter(website.eq(user_website))
+        .limit(1000)
+        .load::<Message>(&connection)
+        .expect("Error loading posts");
+    return results;
+
+
 }

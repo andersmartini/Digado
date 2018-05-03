@@ -39,6 +39,12 @@ fn get_chat() -> Json<Vec<Message>> {
     return Json(get_messages());
 }
 
+#[get("/chat/<website>")]
+fn get_chat_by_website(website : String) -> Json<Vec<Message>> {
+    return Json(get_messages_website(website));
+}
+
+
 #[post("/chat", format = "application/json", data = "<message>")]
 fn new_message(message: Json<ReceivedMessage>) {
     let connection = establish_connection();
@@ -51,8 +57,9 @@ fn main() {
     rocket::ignite()
         .mount("/hello", routes![index])
         .mount("/hello", routes![hello])
-        .mount("/api", routes![get_topic])
-        .mount("/api", routes![get_chat])
-        .mount("/api", routes![new_message])
+        .mount("", routes![get_topic])
+        .mount("", routes![get_chat])
+        .mount("", routes![new_message])
+        .mount("", routes![get_chat_by_website])
         .launch();
 }
